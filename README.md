@@ -5,6 +5,20 @@ This project aims to introduce you to the wonderful world of virtualization.
 Download Oracle VM VirtualBox <br>
 Download Debian current stable distribution (currently Debian version 12 - _bookworm_)
 
+## AppArmor
+AppArmor is a Linux application that confines programs according to a set of rules (_profiles_) that specify what files a given program can access. I already comes with Debian 12 by default.
+Check if it is already enabled
+```bash
+$ aa-status
+```
+
+## Usefull commands
+
+Listing block devices: displays information about all block storage devices that are currently available on the system
+```bash
+$ lsblk
+```
+
 ## Sudo (_Superuser do_) installation
 You need to be logged as root user (_superuser_). Switch to root and provide the root user's password
 ```bash
