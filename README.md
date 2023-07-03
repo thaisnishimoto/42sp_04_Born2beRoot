@@ -5,6 +5,23 @@ This project aims to introduce you to the wonderful world of virtualization.
 Download Oracle VM VirtualBox <br>
 Download Debian current stable distribution (currently Debian version 12 - _bookworm_)
 
+## LVM - Logical Volume Manager
+More flexible way to manage storage, because allows to change storage on the fly, without having to unmount. It helps combine multiple physical storage devices, such as hard drives or SSDs, into a single logical volume that can be divided and resized as needed.
+There is a device mapper that combines different physical volumes into one group. Allows to. use one logical volume that accesses storage from multiple different disk.
+3 layers:
+1. Physical Volume represents a physical storage device
+```
+pvscan - searches for PVs
+pvcreate - creates a PV
+```
+2. Group Volume - it's a pool that holds the storage capacity from the physical volumes, it`s created by combining one or more PVs together
+```
+vgscan - searches for VGs
+vgcreate - creates a group from PVs
+```
+4. Logical Volume (lvscan / lvcreate --name $<name> --size XXG <VG>)
+
+
 ## AppArmor
 AppArmor is a Linux application that confines programs according to a set of rules (_profiles_) that specify what files a given program can access. It already comes with Debian 12 by default.
 Check if it is already enabled
