@@ -3,11 +3,47 @@ This project aims to introduce you to the wonderful world of virtualization.
 
 ## Create virtual machine
 Download Oracle VM VirtualBox <br>
-Download Debian current stable distribution (currently Debian version 12 - _bookworm_)
+Download Debian current stable distribution (currently Debian version 12 - _bookworm_) <br>
+Network - change to Bridged Adapter so the VM is accessible from the network. It will assign an IP address to the VM.
+<br>
+1. Create standard partition of 500M to /boot
+2. Create logical partition of max without mountpoint
+3. Encrypt logical partition created above
+4. Create the following encrypted partitions
+   - root: home directory for root user
+   - swap: scratch space for OS
+   - home: user home directories
+   - var: contains files to which the system writes data
+   - srv: data for services provided by the system
+   - tmp: temporary files
+   - var/log: contains log files
+https://www.youtube.com/watch?v=OQEdjt38ZJA
 
+## SSH
+OpenSSH is a remote management tool that gives to run commands on another machine
+Disable root login via SSH
+nano  sshd_config
+Port 4242
+ListenAddress 0.0.0.0
+PermitRootLofin no
+
+apto install net-tools (to use ifconfig)
+ip a (to see IP address)
+systemctl restart networking
+ufw statusrestart 
+systemctl restart ssh
+systemctl status ssh
+apt install ufw
+ufw status
+ufw enable
+apt install openssh-server
+apt remove --purge openssh-server
+fdisk -l
+df -h
+cat etc/fstab
 ## LVM - Logical Volume Manager
 More flexible way to manage storage, because allows to change storage on the fly, without having to unmount. It helps combine multiple physical storage devices, such as hard drives or SSDs, into a single logical volume that can be divided and resized as needed.
-There is a device mapper that combines different physical volumes into one group. Allows to. use one logical volume that accesses storage from multiple different disk.
+There is a device mapper that combines different physical volumes into one group. It allows to use one logical volume that accesses storage from multiple different disks.
 3 layers:
 1. Physical Volume represents a physical storage device
 ```
@@ -19,8 +55,11 @@ pvcreate - creates a PV
 vgscan - searches for VGs
 vgcreate - creates a group from PVs
 ```
-4. Logical Volume (lvscan / lvcreate --name $<name> --size XXG <VG>)
-
+4. Logical Volume -
+```
+lvscan - searches for LVs
+lvcreate - creates a logical volume in an speficied size from a VG
+```
 
 ## AppArmor
 AppArmor is a Linux application that confines programs according to a set of rules (_profiles_) that specify what files a given program can access. It already comes with Debian 12 by default.
@@ -126,4 +165,4 @@ Defaults        passwd_tries=3
 Defaults        badpass_message="custom-message"
 ```
 
-## Disable root login via SSH
+
