@@ -17,30 +17,57 @@ Network - change to Bridged Adapter so the VM is accessible from the network. It
    - srv: data for services provided by the system
    - tmp: temporary files
    - var/log: contains log files
+<br>
 https://www.youtube.com/watch?v=OQEdjt38ZJA
 
-## SSH
-OpenSSH is a remote management tool that gives to run commands on another machine
-Disable root login via SSH
-nano  sshd_config
-Port 4242
-ListenAddress 0.0.0.0
-PermitRootLofin no
-
-apto install net-tools (to use ifconfig)
-ip a (to see IP address)
-systemctl restart networking
-ufw statusrestart 
-systemctl restart ssh
-systemctl status ssh
-apt install ufw
+## UFW - Uncomplicated Firewall
+UFW controlls network connections to protect the system. UFW default policy is to deny incoming traffic and allow outgoing traffic.
+```
 ufw status
+apt install ufw
 ufw enable
+```
+
+## SSH - Secure Shell
+SSH creates a secure conection between:
+ - Client: local computer
+ - Server: computer we want to control
+
+We need the install an ssh server on the remote server. OpenSSH is a connectivity tool for remote sign-in that uses the SSH protocol. It encrypts all traffic between client and server to eliminate attacks.
+```
 apt install openssh-server
-apt remove --purge openssh-server
-fdisk -l
-df -h
-cat etc/fstab
+```
+> A SSH service will be running on port 4242 only. Port 22 is the SSH default.  <br>
+> Disable root login via SSH  <br>
+
+Edit the sshd_config file on remote server (server-side configuration file)
+```
+nano  /etc/ssh/sshd_config
+```
+Change following lines:
+   - Port 4242
+   - PermitRootLogin no <br>
+
+You typically need to restart the SSH server (sshd) for the changes to take effect
+```
+systemctl restart ssh
+```
+To test the SSH
+```
+ip a (to see server IP address)
+```
+On local machine
+```
+ssh username@ip_address -p 4242
+password:
+```
+Copy files from and to server (_secure copy_)
+```
+systemctl restart networking (changes the IP if necessary)
+to download: scp -P 4242 username@ip_address:[file path on server] [destination path (current dir:.)]
+to upload: scp -P 4242 [file path] username@ip_address:[destination path (user home:~)]
+```
+
 ## LVM - Logical Volume Manager
 More flexible way to manage storage, because allows to change storage on the fly, without having to unmount. It helps combine multiple physical storage devices, such as hard drives or SSDs, into a single logical volume that can be divided and resized as needed.
 There is a device mapper that combines different physical volumes into one group. It allows to use one logical volume that accesses storage from multiple different disks.
@@ -62,8 +89,9 @@ lvcreate - creates a logical volume in an speficied size from a VG
 ```
 
 ## AppArmor
-AppArmor is a Linux application that confines programs according to a set of rules (_profiles_) that specify what files a given program can access. It already comes with Debian 12 by default.
-Check if it is already enabled
+AppArmor is a Linux application that confines programs according to a set of rules (_profiles_) that specify what files a given program can access, limiting its resources. The profle depends on the installation pathway of the program being executed. The Kernel checks with AppArmor to know if the program is authorized to do the what it attempting to do.
+Unlike SELinux, the rules don´t depend on the user. Everyone finds the same set of rule when trying to execute a program. <br>
+It already comes with Debian 12 by default. To check if it is already enabled:
 ```bash
 $ aa-status
 ```
@@ -80,7 +108,7 @@ $ lsblk
 It is good secutiry practice to disable root login over SSH to prevent unauthorized access. Another user with almost all superuser privileges should be created. <br>
 You need to be logged as root user (_superuser_). Switch to root and provide the root user's password
 ```bash
-$ su
+$ su -
 Password:
 ```
 Install sudo 
@@ -141,6 +169,7 @@ $ passwd <username>
 ```
 
 ## Sudo configuration
+
 The default security policy is sudoers, which is configured via the file /etc/sudoers <br>
 Sudo will read and parse any files in the /etc/sudoers.d directory. The contents of /etc/sudoers.d survive system upgrades, so it's preferrable to create a file there than to modify /etc/sudoers <br>
 A rule at the bottom will override a conflicting rule above it. <br>
