@@ -2,14 +2,16 @@
 This project aims to introduce you to the wonderful world of virtualization.
 
 ## Create virtual machine
-Download Oracle VM VirtualBox <br>
-Download Debian current stable distribution (currently Debian version 12 - _bookworm_) <br>
-Network - change to Bridged Adapter so the VM is accessible from the network. It will assign an IP address to the VM.
+ - Download Oracle VM VirtualBox <br>
+ - Download Debian current stable distribution (currently Debian version 12 - _bookworm_) <br>
+ - Settings: change Network to Bridged Adapter so the VM is accessible from the network. It will assign an IP address to the VM.
 <br>
+
+## Partition
 1. Create standard partition of 500M to /boot
 2. Create logical partition of max without mountpoint
 3. Encrypt logical partition created above
-4. Create the following encrypted partitions
+4. Create the following encrypted logical partitions
    - root: home directory for root user
    - swap: scratch space for OS
    - home: user home directories
@@ -18,55 +20,6 @@ Network - change to Bridged Adapter so the VM is accessible from the network. It
    - tmp: temporary files
    - var/log: contains log files
 <br>
-https://www.youtube.com/watch?v=OQEdjt38ZJA
-
-## UFW - Uncomplicated Firewall
-UFW controlls network connections to protect the system. UFW default policy is to deny incoming traffic and allow outgoing traffic.
-```
-ufw status
-apt install ufw
-ufw enable
-```
-
-## SSH - Secure Shell
-SSH creates a secure conection between:
- - Client: local computer
- - Server: computer we want to control
-
-We need the install an ssh server on the remote server. OpenSSH is a connectivity tool for remote sign-in that uses the SSH protocol. It encrypts all traffic between client and server to eliminate attacks.
-```
-apt install openssh-server
-```
-> A SSH service will be running on port 4242 only. Port 22 is the SSH default.  <br>
-> Disable root login via SSH  <br>
-
-Edit the sshd_config file on remote server (server-side configuration file)
-```
-nano  /etc/ssh/sshd_config
-```
-Change following lines:
-   - Port 4242
-   - PermitRootLogin no <br>
-
-You typically need to restart the SSH server (sshd) for the changes to take effect
-```
-systemctl restart ssh
-```
-To test the SSH
-```
-ip a (to see server IP address)
-```
-On local machine
-```
-ssh username@ip_address -p 4242
-password:
-```
-Copy files from and to server (_secure copy_)
-```
-systemctl restart networking (changes the IP if necessary)
-to download: scp -P 4242 username@ip_address:[file path on server] [destination path (current dir:.)]
-to upload: scp -P 4242 [file path] username@ip_address:[destination path (user home:~)]
-```
 
 ## LVM - Logical Volume Manager
 More flexible way to manage storage, because allows to change storage on the fly, without having to unmount. It helps combine multiple physical storage devices, such as hard drives or SSDs, into a single logical volume that can be divided and resized as needed.
@@ -99,8 +52,23 @@ $ aa-status
 ## Usefull commands
 
 Listing block devices: displays information about all block storage devices that are currently available on the system
-```bash
+```
 $ lsblk
+```
+Listing groups and users:
+```
+$ getent group
+$ getent passwd
+```
+Create new group and new user:
+```
+$ groupadd [groupname]
+$ adduser [username]
+```
+Check a group's users and a user's groups:
+```
+$ getent group [groupname]
+$ group [username]
 ```
 
 ## Sudo (_Superuser do_) installation
@@ -113,12 +81,41 @@ Password:
 ```
 Install sudo 
 ```bash
-$ apt-get install sudo
+$ apt install sudo
 ```
-Add user to sudo group
+Add existing user to sudo group
 ```bash
-$ adduser <USER> sudo
+$ usermod -aG sudo [usename]
 ```
+
+## Sudo configuration
+
+The default security policy is sudoers, which is configured via the file /etc/sudoers <br>
+Sudo will also read and parse any files in the /etc/sudoers.d directory. The contents of /etc/sudoers.d survive system upgrades, so it's preferrable to create a file there than to modify /etc/sudoers <br>
+A rule at the bottom will override a conflicting rule above it. <br>
+The visudo command opens a text editor like normal, but it validates the syntax of the file upon saving. This prevents configuration errors from blocking sudo operations.
+```bash
+$ visudo /etc/sudoers.d/<filename>
+```
+> 1. Authentication using sudo has to be limited to 3 attempts in the event of an incorrect password.<br>
+> 2. A custom message of your choice has to be displayed if an error due to a wrong password occurs when using sudo.<br>
+> 3. Each action using sudo has to be archived, both inputs and outputs. The log file has to be saved in the /var/log/sudo/ folder.<br>
+> 4. The TTY mode has to be enabled for security reasons.<br>
+> 5. For security reasons too, the paths that can be used by sudo must be restricted.<br>
+> Example: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
+
+Create the directory for the logs:
+```
+$ mkdir /var/log/sudo
+```
+In the file created, write:
+```
+Defaults        passwd_tries=3
+Defaults        badpass_message="custom-message"
+Defaults        logfile=/var/log/sudo/sudo.log
+Defaults        secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
+```
+
 
 ## Password policies
 
@@ -168,30 +165,57 @@ enforce_for_root <br>
 $ passwd <username>
 ```
 
-## Sudo configuration
 
-The default security policy is sudoers, which is configured via the file /etc/sudoers <br>
-Sudo will read and parse any files in the /etc/sudoers.d directory. The contents of /etc/sudoers.d survive system upgrades, so it's preferrable to create a file there than to modify /etc/sudoers <br>
-A rule at the bottom will override a conflicting rule above it. <br>
-The visudo command opens a text editor like normal, but it validates the syntax of the file upon saving. This prevents configuration errors from blocking sudo operations.
-```bash
-$ visudo /etc/sudoers.d/<filename>
+## UFW - Uncomplicated Firewall
+UFW controlls network connections to protect the system. UFW default policy is to deny incoming traffic and allow outgoing traffic.
 ```
-> 1. Authentication using sudo has to be limited to 3 attempts in the event of an incorrect password.<br>
-> 2. A custom message of your choice has to be displayed if an error due to a wrong password occurs when using sudo.<br>
-> 3. Each action using sudo has to be archived, both inputs and outputs. The log file has to be saved in the /var/log/sudo/ folder.<br>
-> 4. The TTY mode has to be enabled for security reasons.<br>
-> 5. For security reasons too, the paths that can be used by sudo must be restricted.<br>
-> Example: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
-
-Create the directory for the logs:
-```
-$ mkdir /var/log/sudo
-```
-In the file created, write:
-```
-Defaults        passwd_tries=3
-Defaults        badpass_message="custom-message"
+ufw status
+apt install ufw
+ufw enable
 ```
 
+## SSH - Secure Shell
+SSH is a protocol that creates a secure conection between:
+ - Client: local computer
+ - Server: computer we want to control
 
+We need to install an ssh server on the remote server. OpenSSH is a connectivity tool for remote sign-in that uses the SSH protocol. It encrypts all traffic between client and server to eliminate attacks.
+```
+apt install openssh-server
+```
+> A SSH service will be running on port 4242 only. Port 22 is the SSH default.  <br>
+> Disable root login via SSH  <br>
+
+Edit the sshd_config file on remote server (server-side configuration file)
+```
+nano  /etc/ssh/sshd_config
+```
+Change following lines:
+   - Port 4242
+   - PermitRootLogin no <br>
+
+To delete a port access
+```
+ufw status numbered
+ufw delete [rule number]
+```
+You typically need to restart the SSH server (sshd) for the changes to take effect
+```
+systemctl restart ssh
+```
+To test the SSH
+```
+ip a (to see server IP address)
+```
+On local machine
+```
+ssh username@ip_address -p 4242
+password:
+```
+Copy files from and to server (_secure copy_)
+You might need to change the file permissions (chmod command), copy it to /tmp file and change the permissions on the temporary file only
+```
+systemctl restart networking (changes the IP if necessary)
+to download - from local: scp -P 4242 username@ip_address:[file path on server] [destination path (current dir:.)]
+to upload - from local: scp -P 4242 [file path] username@ip_address:[destination path (user home:~)]
+```
