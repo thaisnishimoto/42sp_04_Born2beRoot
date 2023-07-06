@@ -90,13 +90,6 @@ $ usermod -aG sudo [usename]
 
 ## Sudo configuration
 
-The default security policy is sudoers, which is configured via the file /etc/sudoers <br>
-Sudo will also read and parse any files in the /etc/sudoers.d directory. The contents of /etc/sudoers.d survive system upgrades, so it's preferrable to create a file there than to modify /etc/sudoers <br>
-A rule at the bottom will override a conflicting rule above it. <br>
-The visudo command opens a text editor like normal, but it validates the syntax of the file upon saving. This prevents configuration errors from blocking sudo operations.
-```bash
-$ visudo /etc/sudoers.d/<filename>
-```
 > 1. Authentication using sudo has to be limited to 3 attempts in the event of an incorrect password.<br>
 > 2. A custom message of your choice has to be displayed if an error due to a wrong password occurs when using sudo.<br>
 > 3. Each action using sudo has to be archived, both inputs and outputs. The log file has to be saved in the /var/log/sudo/ folder.<br>
@@ -104,7 +97,14 @@ $ visudo /etc/sudoers.d/<filename>
 > 5. For security reasons too, the paths that can be used by sudo must be restricted.<br>
 > Example: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
 
-Create the directory for the logs:
+The default security policy is sudoers, which is configured via the file /etc/sudoers <br>
+Sudo will also read and parse any files in the /etc/sudoers.d directory. The contents of /etc/sudoers.d survive system upgrades, so it's preferrable to create a file there than to modify /etc/sudoers <br>
+A rule at the bottom will override a conflicting rule above it. <br>
+The visudo command opens a text editor like normal, but it validates the syntax of the file upon saving. This prevents configuration errors from blocking sudo operations.
+```bash
+$ visudo /etc/sudoers.d/<filename>
+```
+Enabling TTY mode ensures that the command executed with sudo requires an interactive terminal session. This means that the command will prompt for input, display output, and potentially request user authentication. <br>
 ```
 $ mkdir /var/log/sudo
 ```
@@ -113,10 +113,14 @@ In the file created, write:
 Defaults        passwd_tries=3
 Defaults        badpass_message="custom-message"
 Defaults        logfile=/var/log/sudo/sudo.log
+Defaults        requiretty
 Defaults        secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
 ```
-
-
+You can replay the sudo session in real-time, based on the :
+When a command is run via sudo with log_output enabled a TSID=ID string is logged to the sudo log file.
+```
+sudoreplay [Terminal Session ID]
+```
 ## Password policies
 
 > 1. Your password has to expire every 30 days.
@@ -219,3 +223,47 @@ systemctl restart networking (changes the IP if necessary)
 to download - from local: scp -P 4242 username@ip_address:[file path on server] [destination path (current dir:.)]
 to upload - from local: scp -P 4242 [file path] username@ip_address:[destination path (user home:~)]
 ```
+
+##Monitoring Script
+> The architecture of your operating system and its kernel version.
+```
+uname -a (Displays all information specified with the -m, -n, -r, -s, and -v flags.)
+```
+Display all information about the operating system, Kernel version, and hardware: <br>
+Linux | tmina-ni | 6.1.0-9-amd64 #1 | SMP PREEMPT_DYNAMIC Debian 6.1.27-1 (2023-05-08) | x86_64 | GNU/Linux <br>
+[Kernel name] [hostname] [Kernel version] [Kernel compile time] [Kernel architecture] [OS name]
+
+> The number of physical processors.
+> The number of virtual processors.
+> The current available RAM on your server and its utilization rate as a percentage.
+> The current available memory on your server and its utilization rate as a percentage.
+> The current utilization rate of your processors as a percentage.
+> The date and time of the last reboot.
+> Whether LVM is active or not.
+> The number of active connections.
+> The number of users using the server.
+> The IPv4 address of your server and its MAC (Media Access Control) address.
+> The number of commands executed with the sudo program.The command:
+
+
+
+can interrupt a running task and allocate the CPU to a higher-priority task that needs to be executed
+
+O comando wall (_write all_) é utilizado para transmitir uma mensagem para todas as pessoas conectadas aos terminais do Linux.
+
+
+##Cron
+> At server startup, the script will display some information (listed below) on all terminals every 10 minutes
+A cron job is a Linux command used for scheduling tasks to be executed sometime in the future. A cron file is a simple text file that contains commands to run periodically at a specific time. The default system cron table or crontab configuration file is /etc/crontab.
+
+The crontab syntax consists of five fields with the following possible values:
+* * * * * bash_file
+Minute. The minute of the hour the command will run on, ranging from 0-59.
+Hour. The hour the command will run at, ranging from 0-23 in the 24-hour notation.
+Day of the month. The day of the month the user wants the command to run on, ranging from 1-31.
+Month. The month that the user wants the command to run in, ranging from 1-12, thus representing January-December.
+Day of the week. The day of the week for a command to run on, ranging from 0-6, representing Sunday-Saturday. In some systems, the value 7 represents Sunday.
+Don’t leave any of the fields blank.
+From here, monitoring.sh will be executed every 10th minute. To make it execute every ten minutes from system startup, we can create a sleep.sh script that calculates the delay between server startup time and the tenth minute of the hour, then add it to the cron job to apply the delay.
+
+uptime -s
