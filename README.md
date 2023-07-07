@@ -147,7 +147,7 @@ $ chage -W 7 <username/root>
 > 6. The following rule does not apply to the root password **by default**: The password must have at least 7 characters that are not part of the former password.
 > 7. Of course, your root password has to comply with this policy
 
-The default pam_deny.so module is designed to deny any password change or creation request, effectively preventing any modifications to the password. To implement a password policy, install libpam-cracklib - PAM (Pluggable Authentication Module) that tests passwords to make sure they are not too weak during password change
+To implement a password policy, install libpam-pwquality - PAM (Pluggable Authentication Module) that  perform password quality checking to make sure they are not too weak during password change
 ```bash
 $ apt-get install libpam-pwquality
 ```
@@ -224,18 +224,30 @@ to download - from local: scp -P 4242 username@ip_address:[file path on server] 
 to upload - from local: scp -P 4242 [file path] username@ip_address:[destination path (user home:~)]
 ```
 
-##Monitoring Script
+## Monitoring Script
+
 > The architecture of your operating system and its kernel version.
+Display all information about the operating system, Kernel version, and hardware: <br>
 ```
 uname -a (Displays all information specified with the -m, -n, -r, -s, and -v flags.)
 ```
-Display all information about the operating system, Kernel version, and hardware: <br>
 Linux | tmina-ni | 6.1.0-9-amd64 #1 | SMP PREEMPT_DYNAMIC Debian 6.1.27-1 (2023-05-08) | x86_64 | GNU/Linux <br>
 [Kernel name] [hostname] [Kernel version] [Kernel compile time] [Kernel architecture] [OS name]
 
 > The number of physical processors.
+In the output of the cat /proc/cpuinfo command, each physical processor in the system will have a unique physical ID, so we can count each unique occurance.
+```
+grep "physical id" /proc/cpuinfo | sort --unique | wc -l
+```
+
 > The number of virtual processors.
+A vCPU is a virtual CPU created and assigned to a virtual machine. You can determine the number of vCPUs by examining the "processor" fieldin /cpuinfo, when in a VM. Alternatevely, 'nproc' prints the number of available processor units
+```
+nproc
+```
 > The current available RAM on your server and its utilization rate as a percentage.
+RAM (_Random Access Memory_) is the temporary storage in your computer that gives applications a place to store and access data on a short-term basis. Having more RAM means that more data can be accessed and read almost instantly, as opposed to being written on your hard drive. Generally speaking, the more memory you have, the better for multitasking. Running out of memory leaves your server with very slow response time or being completely unresponsive.
+
 > The current available memory on your server and its utilization rate as a percentage.
 > The current utilization rate of your processors as a percentage.
 > The date and time of the last reboot.
@@ -250,9 +262,13 @@ Linux | tmina-ni | 6.1.0-9-amd64 #1 | SMP PREEMPT_DYNAMIC Debian 6.1.27-1 (2023-
 can interrupt a running task and allocate the CPU to a higher-priority task that needs to be executed
 
 
-##Cron
+## Cron
 
-> At server startup, the script will display some information [`monitoring script`](monitoring.sh) on all terminals every 10 minutes
+> At server startup, the script will display some information on all terminals every 10 minutes
+The [`monitoring script`](monitoring.sh) must have execution permission to run
+```
+chmod 775 monitoring.sh
+```
 Cron is a Linux command used for scheduling tasks to be executed sometime in the future. A cron file is a simple text file that contains commands to run periodically at a specific time. <br>
 There are different places where you can save cron jobs. Based on my readings, I have personally decided to organize my files like this:
 1. System crontab file (/etc/crontab) - For services needed for the system, like backups
