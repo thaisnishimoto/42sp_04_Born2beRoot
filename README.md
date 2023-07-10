@@ -142,7 +142,7 @@ $ chage -m 2 <username/root>
 $ chage -W 7 <username/root>
 ```
 
-> 4. Your password must be at least 10 characters long. It must contain an uppercase letter and a number. Also, it must not contain more than 3 consecutive identical characters.
+> 4. Your password must be at least 10 characters long. It must contain an uppercase letter, a lowercase letter and a number. Also, it must not contain more than 3 consecutive identical characters.
 > 5. The password must not include the name of the user.
 > 6. The following rule does not apply to the root password **by default**: The password must have at least 7 characters that are not part of the former password.
 > 7. Of course, your root password has to comply with this policy
@@ -226,36 +226,71 @@ to upload - from local: scp -P 4242 [file path] username@ip_address:[destination
 
 ## Monitoring Script
 
-> The architecture of your operating system and its kernel version.
+> 1. The architecture of your operating system and its kernel version. <br>
+
 Display all information about the operating system, Kernel version, and hardware: <br>
 ```
 uname -a (Displays all information specified with the -m, -n, -r, -s, and -v flags.)
 ```
 Linux | tmina-ni | 6.1.0-9-amd64 #1 | SMP PREEMPT_DYNAMIC Debian 6.1.27-1 (2023-05-08) | x86_64 | GNU/Linux <br>
 [Kernel name] [hostname] [Kernel version] [Kernel compile time] [Kernel architecture] [OS name]
+<br>
 
-> The number of physical processors.
+> 2. The number of physical processors. <br>
+
 In the output of the cat /proc/cpuinfo command, each physical processor in the system will have a unique physical ID, so we can count each unique occurance.
 ```
 grep "physical id" /proc/cpuinfo | sort --unique | wc -l
 ```
+<br>
 
-> The number of virtual processors.
+> 3. The number of virtual processors. <br>
+
 A vCPU is a virtual CPU created and assigned to a virtual machine. You can determine the number of vCPUs by examining the "processor" fieldin /cpuinfo, when in a VM. Alternatevely, 'nproc' prints the number of available processor units
 ```
 nproc
 ```
-> The current available RAM on your server and its utilization rate as a percentage.
-RAM (_Random Access Memory_) is the temporary storage in your computer that gives applications a place to store and access data on a short-term basis. Having more RAM means that more data can be accessed and read almost instantly, as opposed to being written on your hard drive. Generally speaking, the more memory you have, the better for multitasking. Running out of memory leaves your server with very slow response time or being completely unresponsive.
+<br>
 
-> The current available memory on your server and its utilization rate as a percentage.
-> The current utilization rate of your processors as a percentage.
-> The date and time of the last reboot.
-> Whether LVM is active or not.
-> The number of active connections.
-> The number of users using the server.
-> The IPv4 address of your server and its MAC (Media Access Control) address.
-> The number of commands executed with the sudo program.The command:
+> 4. The current available RAM on your server and its utilization rate as a percentage. <br>
+
+RAM (_Random Access Memory_) is the temporary storage in your computer that gives applications a place to store and access data on a short-term basis. Having more RAM means that more data can be accessed and read almost instantly, as opposed to being written on your hard drive. Generally speaking, the more memory you have, the better for multitasking. Running out of memory leaves your server with very slow response time or being completely unresponsive. <br>
+When working on a file, it is being kept on RAM until you click save and it is saved on your hard drive. 
+```
+free -m (checks memory info in MB)
+```
+The 'used' memory output from command 'free -m' is equivalent to use = total – free – buff/cache. So it shows the % of available memory. This provides a more accurate measure of memory that can be used by applications, considering that the cache can be quickly freed up if required by processes.
+<br>
+
+> 5. The current available memory on your server and its utilization rate as a percentage.
+
+For available memory, the example shows "Disk usage", so I assume it means storage. Storage comes in the form of a solid-state drive or a hard drive.
+Storage is where data is saved permanently (doesn't clear when the computer is turned off), it holds items that need to be saved and stored but are not necessarily needed for immediate access.
+```
+df -h (disk free in human readable format)
+```
+<br>
+
+> 6. The current utilization rate of your processors as a percentage.
+
+CPU load shoes how busy the server is. It is defined as the number of processes using or waiting to use one core at a single point in time. Ideally the CPU load should be under 1.00, which means that the processes have no idle time.
+The load assessment depends on the number of cores installed: the 100% utilization rate for a single-core system is 1.00, but for a quad-core it would be 4.00. <br>
+On the other hand, CPU usage provides a real-time measurement of the CPU's utilization at a given moment. The % values displayed in the %Cpu(s) line represent the overall CPU utilization across all available cores.
+```
+mpstat | grep all | awk '{printf 100 - $NF}' (NF gets the last field: idle)
+```
+<br>
+
+> 8. The date and time of the last reboot.
+```
+who -b | awk '$1 == "system" {print $3 " " $4}'
+```
+
+> 9. Whether LVM is active or not.
+> 10. The number of active connections.
+> 11. The number of users using the server.
+> 12. The IPv4 address of your server and its MAC (Media Access Control) address.
+> 13. The number of commands executed with the sudo program.
 
 
 
