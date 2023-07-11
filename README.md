@@ -116,7 +116,7 @@ Defaults        logfile=/var/log/sudo/sudo.log
 Defaults        requiretty
 Defaults        secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
 ```
-You can replay the sudo session in real-time, based on the :
+You can replay the sudo session in real-time, based on the ID
 When a command is run via sudo with log_output enabled a TSID=ID string is logged to the sudo log file.
 ```
 sudoreplay [Terminal Session ID]
@@ -281,20 +281,44 @@ mpstat | grep all | awk '{printf 100 - $NF}' (NF gets the last field: idle)
 ```
 <br>
 
-> 8. The date and time of the last reboot.
+> 7. The date and time of the last reboot.
 ```
 who -b | awk '$1 == "system" {print $3 " " $4}'
 ```
 
-> 9. Whether LVM is active or not.
-> 10. The number of active connections.
-> 11. The number of users using the server.
-> 12. The IPv4 address of your server and its MAC (Media Access Control) address.
-> 13. The number of commands executed with the sudo program.
+> 8. Whether LVM is active or not.
 
+Detect if there is at least 1 LVM on the system.
+```
+if [ $(lsblk | grep "lvm" | wc -l) -eq 0]; then echo no; else echo yes; fi 
+```
 
+> 9. The number of active connections.
 
-can interrupt a running task and allocate the CPU to a higher-priority task that needs to be executed
+TCP (_Transmission Control Protocol_) is a standard for exchanging data between different devices in a computer network (client and server). TCP allows for reliable transmission of information in both directions.
+```
+ss (socket statistics) -t (tcp) | grep "established" | wc -l
+```
+
+> 10. The number of users using the server.
+```
+w -h (without header) | wc -l
+```
+
+> 11. The IPv4 address of your server and its MAC (Media Access Control) address.
+
+Both IP and MAC addresses are used to identify network devices and send data to the destination. <br>
+IP Address (_Internet Address_) is a logical address used for global identification. <br>
+MAC address (_Physical Address_) is a unique hardware number that can never be changed and it is used for local identification. I comes from the manufacturer and it is used to identify a particular device. <br> 
+```
+hostname -I | awk '{print $1}
+ip -br (better layout) link (used to display and modify network interfaces)
+```
+
+> 12. The number of commands executed with the sudo program.
+```
+cat /var/log/sudo/sudo.log | grep "USER" | wc -l
+```
 
 
 ## Cron
@@ -339,3 +363,18 @@ O comando wall (_write all_) é utilizado para transmitir uma mensagem para toda
 wall -n (removes header)
 ```
 
+## Lighttpd
+Lighttpd is an open-source, secure, fast, compliant, and very flexible web server. <br>
+A web server is a piece of software in a machine (that holds a website raw material). When we type a URL, we send a request to the web server. It gathers the data into a webpage and sends it back to your web browser. Ir serves ip web pages <br> 
+A web browser uses port 80 (http URL) or port 443 (https URL) by default. <br>
+https://www.elegantthemes.com/blog/wordpress/lighttpd-web-server
+https://www.elegantthemes.com/blog/resources/php-tutorials-aspiring-wordpress-developers-should-walk-through
+https://www.youtube.com/watch?v=EGE3cBqNeCk
+https://www.youtube.com/watch?v=rHYTE2WEcPA
+https://www.youtube.com/watch?v=u0OeZfIfBRI
+https://www.youtube.com/watch?v=Zrcg7w67Ots
+https://www.youtube.com/watch?v=cuYZ5lCOcWI
+https://www.youtube.com/watch?v=W0e5rbAjotg
+https://www.youtube.com/watch?v=Nf8N30Xkh8M
+https://www.youtube.com/watch?v=lD6vQBDHkqU
+https://www.youtube.com/watch?v=BhjncGLnUVs
