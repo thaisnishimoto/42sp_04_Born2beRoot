@@ -363,10 +363,47 @@ O comando wall (_write all_) é utilizado para transmitir uma mensagem para toda
 wall -n (removes header)
 ```
 
+## Wordpress
+
+WordPress on the other end is a tool used for the management and creation of websites that is completely open-source and is becoming one of the most popular blogging management and website management system available in the online market. Some of the features of WordPress include publishing tools, user management, media management, flexibility in the creation of your own website, optimized for SEO, simplicity, and easy installation and upgrades.
+
 ## Lighttpd
 Lighttpd is an open-source, secure, fast, compliant, and very flexible web server. <br>
 A web server is a piece of software in a machine (that holds a website raw material). When we type a URL, we send a request to the web server. It gathers the data into a webpage and sends it back to your web browser. Ir serves ip web pages <br> 
-A web browser uses port 80 (http URL) or port 443 (https URL) by default. <br>
+```
+apt install lighttpd
+systemctl status lighttpd
+
+```
+A web browser uses port 80 (http URL) or port 443 (https URL) by default. Allow HTTP traffic in you Firewall. <br>
+```
+ufw allow 80
+ufw status
+```
+
+
+## MariaDB
+MariaDB is an an open-source relational database management system, with higher performance than MySQL. SQL is the programmig language used to create and manipulate a relational database. <br>
+MariaDB is used by Wordpress to store and organize website's data. The classic task of a database management system is to map, manage, store and change data in tables. <br>
+
+```
+```
+
+## PHP
+PHP is a widely used open source and general purpose server-side scripting language used mainly in web development to create dynamic websites and applications. PHP is the dynamic programming language Wordpress was written in.
+Now it’s time to install PHP and all of its extensions.
+```
+```
+php-curl: Provides a CURL module for PHP. CURL is used in command lines and scripts to transfer data through URLs.
+php-gd: Provides a GD module for PHP. The GD library is a library that offers graphics drawing tools to manage image data.
+php-intl: Provides an Internationalisation module for PHP.
+php-mbstring: A package that provides the MBSTRING module for PHP, which is used to manage non-ASCII strings.
+php-soap: Provides the SOAP module for PHP. SOAP is an API architecture that uses the XML language to transfer data between software. Although it has been replaced by the more flexible REST architecture in most web services, SOAP is still used by some companies.
+php-xml: A package that provides a DOM, SimpleXML, WDDX, XML, and XSL module for PHP.
+php-xmlrpc: Provides a XMLRPC-EPI module for PHP. XML-RPC is a feature of WordPress that enables data to be transmitted via HTTP using XML for encoding.
+php-zip: Provides a Zip module for PHP. Zip is a tool that is used to archive and compress files.
+
+
 https://www.elegantthemes.com/blog/wordpress/lighttpd-web-server
 https://www.elegantthemes.com/blog/resources/php-tutorials-aspiring-wordpress-developers-should-walk-through
 https://www.youtube.com/watch?v=EGE3cBqNeCk
