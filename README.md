@@ -367,9 +367,12 @@ wall -n (removes header)
 
 WordPress on the other end is a tool used for the management and creation of websites that is completely open-source and is becoming one of the most popular blogging management and website management system available in the online market. Some of the features of WordPress include publishing tools, user management, media management, flexibility in the creation of your own website, optimized for SEO, simplicity, and easy installation and upgrades.
 
+Lighttpd acts as the front-end web server, handling static file requests and forwarding PHP requests to the PHP FastCGI process via the mod_fastcgi module. PHP executes the WordPress PHP code, interacts with the MariaDB database, and generates the dynamic content, which is then returned to Lighttpd for delivery to the user's browser
+
 ## Lighttpd
+
 Lighttpd is an open-source, secure, fast, compliant, and very flexible web server. <br>
-A web server is a piece of software in a machine (that holds a website raw material). When we type a URL, we send a request to the web server. It gathers the data into a webpage and sends it back to your web browser. Ir serves ip web pages <br> 
+A web server is a piece of software in a machine that holds a website raw material. It is the front-end server for handling HTTP requests. When we type a URL, we send a request to the web server. Lighttpd listens for incoming requests on a specified port and forwards them to the appropriate backend processes. It serves ip web pages <br> 
 ```
 apt install lighttpd
 systemctl status lighttpd
@@ -383,7 +386,8 @@ ufw status
 
 
 ## MariaDB
-MariaDB is an an open-source relational database management system, with higher performance than MySQL. SQL is the programmig language used to create and manipulate a relational database. <br>
+
+MariaDB is an an open-source relational database management system that serves as backend database for WordPress, with higher performance than MySQL. SQL is the programmig language used to create and manipulate a relational database. <br>
 MariaDB is used by Wordpress to store and organize website's data. The classic task of a database management system is to map, manage, store and change data in tables. <br>
 ```
 apt install mariadb-server
@@ -398,7 +402,7 @@ mysql_secure_installation
 - Disallow remote root login: prevents potential unauthorized access from external sources.
 - Remove test database: eliminates any potential security vulnerabilities associated with the test database (which is accessible to anonymous users).
 - Reload privilege tables: applies the privilege changes effectively.
-
+<br>
 Access MariaDB:
 ```
 mariadb
@@ -417,14 +421,19 @@ Access MariaDB with new user:
 mysql -u username -p
 Password:
 ```
-Check user logged:
+Check user logged and it's databases:
 ```
 SELECT CURRENT_USER;
+SHOW DATABASES;
 ```
 
 
 ## PHP
-PHP is a widely used open source and general purpose server-side scripting language used mainly in web development to create dynamic websites and applications. PHP is the dynamic programming language Wordpress was written in.
+PHP is a widely used open source and general purpose server-side scripting language used mainly in web development to create dynamic websites and applications. PHP talks to the database and loads the content on a website. 
+
+## Process
+1. 
+
 Now it’s time to install PHP and all of its extensions.
 ```
 ```
@@ -449,3 +458,7 @@ https://www.youtube.com/watch?v=W0e5rbAjotg
 https://www.youtube.com/watch?v=Nf8N30Xkh8M
 https://www.youtube.com/watch?v=lD6vQBDHkqU
 https://www.youtube.com/watch?v=BhjncGLnUVs
+https://www.youtube.com/watch?v=6QGskEOIS9E
+https://www.youtube.com/watch?v=zHWTY-Z9maU
+https://baigal.medium.com/born2beroot-e6e26dfb50ac
+
