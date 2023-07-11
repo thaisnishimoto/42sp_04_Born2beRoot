@@ -385,9 +385,43 @@ ufw status
 ## MariaDB
 MariaDB is an an open-source relational database management system, with higher performance than MySQL. SQL is the programmig language used to create and manipulate a relational database. <br>
 MariaDB is used by Wordpress to store and organize website's data. The classic task of a database management system is to map, manage, store and change data in tables. <br>
+```
+apt install mariadb-server
+systemctl status mariadb
+```
+To enhance the security of your MariaDB installation, run the following script:
+```
+mysql_secure_installation
+```
+- Set a root password: provides an additional layer of protection.
+- Remove anonymous users: only authenticated users can access the databases.
+- Disallow remote root login: prevents potential unauthorized access from external sources.
+- Remove test database: eliminates any potential security vulnerabilities associated with the test database (which is accessible to anonymous users).
+- Reload privilege tables: applies the privilege changes effectively.
 
+Access MariaDB:
 ```
+mariadb
 ```
+Create database for wordpress and user to access it:
+```
+CREATE DATABASE wordpress;
+SHOW DATABASES;
+CREATE USER '_username_'@'localhost' IDENTIFIED BY '_password_';
+GRANT ALL ON wordpress.* TO 'admin'@'localhost'; (gives access to MariaDB user to all wordpress tables)
+FLUSH PRIVILEGES;
+exit;
+```
+Access MariaDB with new user:
+```
+mysql -u username -p
+Password:
+```
+Check user logged:
+```
+SELECT CURRENT_USER;
+```
+
 
 ## PHP
 PHP is a widely used open source and general purpose server-side scripting language used mainly in web development to create dynamic websites and applications. PHP is the dynamic programming language Wordpress was written in.
