@@ -432,7 +432,8 @@ SHOW DATABASES;
 PHP is a widely used open source and general purpose server-side scripting language used mainly in web development to create dynamic websites and applications. PHP talks to the database and loads the content on a website. 
 
 ## Process
-1. 
+1. Type URL address
+2. 
 
 Now it’s time to install PHP and all of its extensions.
 ```
@@ -458,7 +459,5 @@ https://www.youtube.com/watch?v=W0e5rbAjotg
 https://www.youtube.com/watch?v=Nf8N30Xkh8M
 https://www.youtube.com/watch?v=lD6vQBDHkqU
 https://www.youtube.com/watch?v=BhjncGLnUVs
-https://www.youtube.com/watch?v=6QGskEOIS9E
-https://www.youtube.com/watch?v=zHWTY-Z9maU
-https://baigal.medium.com/born2beroot-e6e26dfb50ac
+
 
