@@ -482,7 +482,13 @@ https://www.youtube.com/watch?v=W0e5rbAjotg
 https://www.youtube.com/watch?v=Nf8N30Xkh8M
 https://www.youtube.com/watch?v=lD6vQBDHkqU
 https://www.youtube.com/watch?v=BhjncGLnUVs
-
+https://www.youtube.com/watch?v=6QGskEOIS9E
+https://www.youtube.com/watch?v=wKn-GIFTo4E
+https://www.youtube.com/watch?v=mBL9Athx7ms
+https://www.youtube.com/watch?v=dO4NB7BrHug
+https://www.inmotionhosting.com/support/edu/wordpress/install-wordpress-debian-10/
+https://www.vultr.com/docs/how-to-install-lighttpd-php-and-mariadb-on-ubuntu-20-04-lts/
+https://stackoverflow.com/questions/24351260/how-to-check-which-php-extensions-have-been-enabled-disabled-in-ubuntu-linux-12
 
 ## Wordpress
 
