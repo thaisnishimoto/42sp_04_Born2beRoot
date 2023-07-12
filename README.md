@@ -434,13 +434,32 @@ Lighttpd acts as the front-end web server, handling static file requests and for
 
 Now it’s time to install PHP. PHP 8.2 is packaged in Debian 12, to go for the system’s default PHP versions, then you just need to run:
 ```
-apt install php
+apt install php php-common
 php -v
 ```
-To get all extensions needed for wordpress:
-```
+php-common is considered a fundamental package for PHP installations and is typically installed by default alongside PHP. It provides common files, settings, and resources that are essential for PHP to function properly <br>
 
+To get all [`extensions needed`](https://make.wordpress.org/hosting/handbook/server-environment/) for wordpress (a few are already bundled in the PHP 8.2):
 ```
+apt install php-cgi php-mysqli php-curl php-dom php-exif php-imagick php-mbstring php-openssl php-pcre php-xml php-zip
+```
+A few additional PHP extensions, you enhance your PHP environment and provide additional capabilities:
+```
+apt install php-cgi (bundled) php-cli (bundled) php-gd php-recode php-tidyphp-xmlrpc php-fpm
+```
+Remember to restart your web server after installing the PHP extensions for the changes to take effect.
+```
+lighty-enable-mod php-mysqli
+lighty-enable-mod fastcgi
+lighty-enable-mod fastcgi-php
+lighty-enable-mod cgi
+systemctl restart lighttpd
+```
+Check modules that are installed :
+dpkg -l | grep apache2
+apt remove --purge apache2*
+apt autoremove (dependencias)
+systemctl stop apache2
 
 
 php-curl: is used in command lines and scripts to transfer data through URLs.
@@ -470,3 +489,28 @@ https://www.youtube.com/watch?v=BhjncGLnUVs
 WordPress is a tool used for the management and creation of websites that is completely open-source. Some of the features of WordPress include publishing tools, user management, media management, flexibility in the creation of your own website, optimized for SEO, simplicity, and easy installation and upgrades.
 
 Now you'll download a copy of the WordPress source files, connect them to your database, and get started with a brand new WordPress site.
+
+
+install wget - baixa direto da internet (downloader)
+
+# wget http://wordpress.org/latest.tar.gz
+# tar -xzvf latest.tar.gz
+# mv wordpress/* /var/www/html/
+# rm -rf latest.tar.gz wordpress
+
+Write the MariaDB database information in the regular wp config file:
+```
+sudo mv wp-config-sample.php wp-config.php
+sudo nano wp-config.php
+```
+
+
+Check for lighttpd errors:
+```
+sudo tail -F lighttpd/error.log
+```
+To confirm the execution of PHP, create a simple PHP test file and place it in your web server root directory.
+```
+sudo chmod -R 755 *
+sudo chown -R (recursivo) www-data:www-data www/
+```
