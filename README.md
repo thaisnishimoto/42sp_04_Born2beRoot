@@ -363,11 +363,6 @@ O comando wall (_write all_) é utilizado para transmitir uma mensagem para toda
 wall -n (removes header)
 ```
 
-## Wordpress
-
-WordPress on the other end is a tool used for the management and creation of websites that is completely open-source and is becoming one of the most popular blogging management and website management system available in the online market. Some of the features of WordPress include publishing tools, user management, media management, flexibility in the creation of your own website, optimized for SEO, simplicity, and easy installation and upgrades.
-
-Lighttpd acts as the front-end web server, handling static file requests and forwarding PHP requests to the PHP FastCGI process via the mod_fastcgi module. PHP executes the WordPress PHP code, interacts with the MariaDB database, and generates the dynamic content, which is then returned to Lighttpd for delivery to the user's browser
 
 ## Lighttpd
 
@@ -429,17 +424,27 @@ SHOW DATABASES;
 
 
 ## PHP
-PHP is a widely used open source and general purpose server-side scripting language used mainly in web development to create dynamic websites and applications. PHP talks to the database and loads the content on a website. 
+PHP is a widely used open source, server-side (all processing happens on the web server before anything is presented do the visitor's web browser) scripting language used mainly in web development to create dynamic websites and applications. PHP talks to the database and loads the content on a website. < br>
+Someone visits your WordPress site. Before any file is sent to this visitor, your server will execute the PHP code in the WordPress core and any themes/plugins you have installed. After processing the code, the server presents the result (HTML that the visitor actually sees). The visitor will never see the PHP code that feeds wordpress, only the processed code delivered to the browser.  
 
 ## Process
 1. Type URL address
 2. 
+Lighttpd acts as the front-end web server, handling static file requests and forwarding PHP requests to the PHP FastCGI process. PHP executes the WordPress PHP code, interacts with the MariaDB database, and generates the dynamic content, which is then returned to Lighttpd for delivery to the user's browser
 
-Now it’s time to install PHP and all of its extensions.
+Now it’s time to install PHP. PHP 8.2 is packaged in Debian 12, to go for the system’s default PHP versions, then you just need to run:
 ```
+apt install php
+php -v
 ```
-php-curl: Provides a CURL module for PHP. CURL is used in command lines and scripts to transfer data through URLs.
-php-gd: Provides a GD module for PHP. The GD library is a library that offers graphics drawing tools to manage image data.
+To get all extensions needed for wordpress:
+```
+
+```
+
+
+php-curl: is used in command lines and scripts to transfer data through URLs.
+php-gd: GD library offers graphics drawing tools to manage image data.
 php-intl: Provides an Internationalisation module for PHP.
 php-mbstring: A package that provides the MBSTRING module for PHP, which is used to manage non-ASCII strings.
 php-soap: Provides the SOAP module for PHP. SOAP is an API architecture that uses the XML language to transfer data between software. Although it has been replaced by the more flexible REST architecture in most web services, SOAP is still used by some companies.
@@ -448,7 +453,6 @@ php-xmlrpc: Provides a XMLRPC-EPI module for PHP. XML-RPC is a feature of WordPr
 php-zip: Provides a Zip module for PHP. Zip is a tool that is used to archive and compress files.
 
 
-https://www.elegantthemes.com/blog/wordpress/lighttpd-web-server
 https://www.elegantthemes.com/blog/resources/php-tutorials-aspiring-wordpress-developers-should-walk-through
 https://www.youtube.com/watch?v=EGE3cBqNeCk
 https://www.youtube.com/watch?v=rHYTE2WEcPA
@@ -461,3 +465,8 @@ https://www.youtube.com/watch?v=lD6vQBDHkqU
 https://www.youtube.com/watch?v=BhjncGLnUVs
 
 
+## Wordpress
+
+WordPress is a tool used for the management and creation of websites that is completely open-source. Some of the features of WordPress include publishing tools, user management, media management, flexibility in the creation of your own website, optimized for SEO, simplicity, and easy installation and upgrades.
+
+Now you'll download a copy of the WordPress source files, connect them to your database, and get started with a brand new WordPress site.
