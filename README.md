@@ -472,34 +472,49 @@ apt autoremove (removes dependencies not being used)
 WordPress is a tool used for the management and creation of websites that is completely open-source. Some of the features of WordPress include publishing tools, user management, media management, flexibility in the creation of your own website, optimized for SEO, simplicity, and easy installation and upgrades.
 
 Now you'll download a copy of the WordPress source files, connect them to your database, and get started with a brand new WordPress site.
-
-
-install wget - baixa direto da internet (downloader)
 ```
-# wget http://wordpress.org/latest.tar.gz
-# tar -xzvf latest.tar.gz
-# mv wordpress/* /var/www/html/
-# rm -rf latest.tar.gz wordpress
+apt install wget (to download from the internet)
+wget http://wordpress.org/latest.tar.gz (downloads last wordpress version)
+tar -xzvf latest.tar.gz (unzip)
+mv wordpress/* /var/www/html/ (move wp source files)
+rm -rf latest.tar.gz wordpress (delete zip file)
 ```
 
 Write the MariaDB database information in the regular wp config file:
 ```
 sudo mv wp-config-sample.php wp-config.php
 sudo nano wp-config.php
+
+<?php
+/* ... */
+/** The name of the database for WordPress */
+define( 'DB_NAME', '_wordpress_' );
+
+/** Database username */
+define( 'DB_USER', '_admin_' );
+
+/** Database password */
+define( 'DB_PASSWORD', '_password_' );
+
+/** Database host */
+define( 'DB_HOST', '_localhost_' );
 ```
 
-
-Check for lighttpd errors:
+Change permissions of WordPress directory to grant rights to web server and restart lighttpd:
 ```
-sudo tail -F lighttpd/error.log
-```
-To confirm the execution of PHP, create a simple PHP test file and place it in your web server root directory.
-```
-sudo chmod -R 755 *
-sudo chown -R (recursivo) www-data:www-data www/
+sudo chmod -R 755 /var/www/html/
+sudo chown -R (recursivo) www-data:www-data www/ /var/www/html/
+sudo systemctl restart lighttpd
 ```
 
-## LAMP process
+To confirm the execution of PHP, type http://IP adress/ to your browser and the configuration menu for Wordpress should appear.
+
+If needed, check for lighttpd errors:
+```
+sudo tail -F /var/log/lighttpd/error.log
+```
+
+## LAMP overall interaction
   
 1. Visitor accesses your WordPress site by entering the URL in their browser.
 2. Lighttpd acts as the front-end web server, receiving the request and handling static file requests like HTML, CSS, JavaScript, and image files. It directly serves these static files without involving PHP or the database.
