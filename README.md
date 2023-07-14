@@ -525,6 +525,15 @@ If the host IP changes, [`change the IP in the database`](https://www.gloomycorn
 6. The visitor's browser renders the HTML received from the server, displaying the final web page. The visitor only sees the processed code delivered to the browser, they are not exposed to the underlying PHP code that powers WordPress.
 
 
+## Samba
+> Set up a service of your choice that you think is useful
+
+Samba is a file sharing service that can be used to share files amd folders over a network
+```
+sudo apt install samba
+sudo systemctl status smbd
+```
+
 https://www.elegantthemes.com/blog/resources/php-tutorials-aspiring-wordpress-developers-should-walk-through
 https://www.youtube.com/watch?v=EGE3cBqNeCk
 https://www.youtube.com/watch?v=rHYTE2WEcPA
