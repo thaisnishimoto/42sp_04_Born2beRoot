@@ -526,12 +526,48 @@ If the host IP changes, [`change the IP in the database`](https://www.gloomycorn
 
 
 ## Samba
+
 > Set up a service of your choice that you think is useful
 
-Samba is a file sharing service that can be used to share files amd folders over a network
+Samba is a file sharing service that can be used to share files and folders over a network
 ```
 sudo apt install samba
 sudo systemctl status smbd
+```
+
+We will create a public (no password) directory that will be shared over the network: 
+```
+sudo mkdir /Public_Files (root dir)
+sudo chown -R (recursive) nobody:nogroup /Public_Files
+```
+
+Change Samba settings to make the directory shareable by adding lines at the end of the config file:
+```
+sudo nano /etc/samba/smb.config
+
+[directory_name]
+path = /Public_Files
+guest ok = yes (won't ask for password)
+read only = no (who access the folder will be able to execute and edit)
+force user = nobody (user with least amount of privileges)
+
+sudo systemctl restart smbd
+```
+
+Samba has its own users list and database. To create a Samba user:
+```
+sudo smbpasswd -a <_smb_username_>
+New smb password:
+```
+
+Configure your firewall
+```
+udo ufw allow samba
+```
+
+To check shared files:
+```
+smbstatus --shares
 ```
 
 https://www.elegantthemes.com/blog/resources/php-tutorials-aspiring-wordpress-developers-should-walk-through
