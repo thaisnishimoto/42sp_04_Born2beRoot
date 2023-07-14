@@ -520,3 +520,33 @@ To confirm the execution of PHP, create a simple PHP test file and place it in y
 sudo chmod -R 755 *
 sudo chown -R (recursivo) www-data:www-data www/
 ```
+
+
+https://www.elegantthemes.com/blog/resources/php-tutorials-aspiring-wordpress-developers-should-walk-through
+https://www.youtube.com/watch?v=EGE3cBqNeCk
+https://www.youtube.com/watch?v=rHYTE2WEcPA
+https://www.youtube.com/watch?v=u0OeZfIfBRI
+https://www.youtube.com/watch?v=Zrcg7w67Ots
+https://www.youtube.com/watch?v=cuYZ5lCOcWI
+https://www.youtube.com/watch?v=W0e5rbAjotg
+https://www.youtube.com/watch?v=Nf8N30Xkh8M
+https://www.youtube.com/watch?v=lD6vQBDHkqU
+https://www.youtube.com/watch?v=BhjncGLnUVs
+https://www.youtube.com/watch?v=6QGskEOIS9E
+https://www.youtube.com/watch?v=wKn-GIFTo4E
+https://www.youtube.com/watch?v=mBL9Athx7ms
+https://www.youtube.com/watch?v=dO4NB7BrHug
+https://www.inmotionhosting.com/support/edu/wordpress/install-wordpress-debian-10/
+https://www.vultr.com/docs/how-to-install-lighttpd-php-and-mariadb-on-ubuntu-20-04-lts/
+https://stackoverflow.com/questions/24351260/how-to-check-which-php-extensions-have-been-enabled-disabled-in-ubuntu-linux-12
+
+https://github.com/mcombeau/Born2beroot/blob/main/guide/bonus_debian.md
+And forward host port 8080 to guest port 80 in VirtualBox:
+•	Go to VM >> Settings >> Network >> Adapter 1 >> Port Forwarding
+•	Add rule for host port 8080 to forward to guest port 80
+To test Lighttpd, go to host machine browser and type in address http://127.0.0.1:8080 or http://localhost:8080. You should see a Lighttpd "placeholder page".
+
+https://github.com/HEADLIGHTER/Born2BeRoot-42/blob/main/rebootfix.txt
+https://github.com/RamonLucio/Born2beRoot
+https://www.youtube.com/watch?v=BhjncGLnUVs&t=88s
+https://www.youtube.com/watch?v=wGVCb8m0a20&t=0s
