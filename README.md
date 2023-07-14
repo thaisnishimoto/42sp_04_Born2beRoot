@@ -364,21 +364,27 @@ wall -n (removes header)
 ```
 
 
+## Bonus
+
+For the bonus, we will be setting a LAMP stack. It is a bundle of four different software technologies that developers use to build websites and web applications. LAMP is an acronym for the operating system, Linux; the web server, Apache; the database server, MySQL; and the programming language, PHP. However, LAMP now refers to a generic software suite model and its components are largely interchangeable. We will be using Linux, Lighttpd, MariaDB and PHP. 
+
+
 ## Lighttpd
 
 Lighttpd is an open-source, secure, fast, compliant, and very flexible web server. <br>
-A web server is a piece of software in a machine that holds a website raw material. It is the front-end server for handling HTTP requests. When we type a URL, we send a request to the web server. Lighttpd listens for incoming requests on a specified port and forwards them to the appropriate backend processes. It serves ip web pages <br> 
+A web server is a piece of software in a machine that holds a website raw material. It is the front-end server for handling HTTP requests. Lighttpd listens for incoming requests on a specified port and forwards them to the appropriate backend processes. It serves ip web pages <br> 
 ```
 apt install lighttpd
 systemctl status lighttpd
-
 ```
+
 A web browser uses port 80 (http URL) or port 443 (https URL) by default. Allow HTTP traffic in you Firewall. <br>
 ```
 ufw allow 80
 ufw status
 ```
 
+To test Lighttpd, go to host machine browser and type in your IP address. You should see a Lighttpd "placeholder page".
 
 ## MariaDB
 
@@ -388,6 +394,7 @@ MariaDB is used by Wordpress to store and organize website's data. The classic t
 apt install mariadb-server
 systemctl status mariadb
 ```
+
 To enhance the security of your MariaDB installation, run the following script:
 ```
 mysql_secure_installation
@@ -398,10 +405,12 @@ mysql_secure_installation
 - Remove test database: eliminates any potential security vulnerabilities associated with the test database (which is accessible to anonymous users).
 - Reload privilege tables: applies the privilege changes effectively.
 <br>
+
 Access MariaDB:
 ```
 mariadb
 ```
+
 Create database for wordpress and user to access it:
 ```
 CREATE DATABASE wordpress;
@@ -411,11 +420,13 @@ GRANT ALL ON wordpress.* TO 'admin'@'localhost'; (gives access to MariaDB user t
 FLUSH PRIVILEGES;
 exit;
 ```
+
 Access MariaDB with new user:
 ```
 mysql -u username -p
 Password:
 ```
+
 Check user logged and it's databases:
 ```
 SELECT CURRENT_USER;
@@ -424,71 +435,37 @@ SHOW DATABASES;
 
 
 ## PHP
-PHP is a widely used open source, server-side (all processing happens on the web server before anything is presented do the visitor's web browser) scripting language used mainly in web development to create dynamic websites and applications. PHP talks to the database and loads the content on a website. < br>
-Someone visits your WordPress site. Before any file is sent to this visitor, your server will execute the PHP code in the WordPress core and any themes/plugins you have installed. After processing the code, the server presents the result (HTML that the visitor actually sees). The visitor will never see the PHP code that feeds wordpress, only the processed code delivered to the browser.  
 
-## Process
-1. Type URL address
-2. 
-Lighttpd acts as the front-end web server, handling static file requests and forwarding PHP requests to the PHP FastCGI process. PHP executes the WordPress PHP code, interacts with the MariaDB database, and generates the dynamic content, which is then returned to Lighttpd for delivery to the user's browser
+PHP is a widely used open source, server-side preprocessor (all processing happens on the web server before anything is presented do the visitor's web browser). It is a scripting language used mainly in web development to create dynamic websites and applications. PHP talks to the database and loads the content on a website. < br>
 
-Now it’s time to install PHP. PHP 8.2 is packaged in Debian 12, to go for the system’s default PHP versions, then you just need to run:
+PHP 8.2 (current stable) is packaged in Debian 12, to go for the system’s default PHP versions, then you just need to run:
 ```
 apt install php php-common
 php -v
 ```
 php-common is considered a fundamental package for PHP installations and is typically installed by default alongside PHP. It provides common files, settings, and resources that are essential for PHP to function properly <br>
 
-To get all [`extensions needed`](https://make.wordpress.org/hosting/handbook/server-environment/) for wordpress (a few are already bundled in the PHP 8.2):
+To get all [`extensions needed`](https://make.wordpress.org/hosting/handbook/server-environment/) for wordpress (a few should be already bundled in the PHP 8.2, but still needed to be installed):
 ```
-apt install php-cgi php-mysqli php-curl php-dom php-exif php-imagick php-mbstring php-openssl php-pcre php-xml php-zip
+apt install php-cgi php-mysqli php-cli (bundled) php-curl php-dom php-exif php-imagick php-mbstring php-xml php-zip
 ```
 A few additional PHP extensions, you enhance your PHP environment and provide additional capabilities:
 ```
-apt install php-cgi (bundled) php-cli (bundled) php-gd php-recode php-tidyphp-xmlrpc php-fpm
+apt install php-gd php-recode php-tidyphp-xmlrpc php-fpm
 ```
 Remember to restart your web server after installing the PHP extensions for the changes to take effect.
 ```
-lighty-enable-mod php-mysqli
 lighty-enable-mod fastcgi
 lighty-enable-mod fastcgi-php
-lighty-enable-mod cgi
+lighty-enable-mod php-mysqli
 systemctl restart lighttpd
 ```
-Check modules that are installed :
+Apache may be installed due to PHP dependencies. Uninstall to avoid conflicts with lighttpd:
+```
 dpkg -l | grep apache2
-apt remove --purge apache2*
-apt autoremove (dependencias)
-systemctl stop apache2
-
-
-php-curl: is used in command lines and scripts to transfer data through URLs.
-php-gd: GD library offers graphics drawing tools to manage image data.
-php-intl: Provides an Internationalisation module for PHP.
-php-mbstring: A package that provides the MBSTRING module for PHP, which is used to manage non-ASCII strings.
-php-soap: Provides the SOAP module for PHP. SOAP is an API architecture that uses the XML language to transfer data between software. Although it has been replaced by the more flexible REST architecture in most web services, SOAP is still used by some companies.
-php-xml: A package that provides a DOM, SimpleXML, WDDX, XML, and XSL module for PHP.
-php-xmlrpc: Provides a XMLRPC-EPI module for PHP. XML-RPC is a feature of WordPress that enables data to be transmitted via HTTP using XML for encoding.
-php-zip: Provides a Zip module for PHP. Zip is a tool that is used to archive and compress files.
-
-
-https://www.elegantthemes.com/blog/resources/php-tutorials-aspiring-wordpress-developers-should-walk-through
-https://www.youtube.com/watch?v=EGE3cBqNeCk
-https://www.youtube.com/watch?v=rHYTE2WEcPA
-https://www.youtube.com/watch?v=u0OeZfIfBRI
-https://www.youtube.com/watch?v=Zrcg7w67Ots
-https://www.youtube.com/watch?v=cuYZ5lCOcWI
-https://www.youtube.com/watch?v=W0e5rbAjotg
-https://www.youtube.com/watch?v=Nf8N30Xkh8M
-https://www.youtube.com/watch?v=lD6vQBDHkqU
-https://www.youtube.com/watch?v=BhjncGLnUVs
-https://www.youtube.com/watch?v=6QGskEOIS9E
-https://www.youtube.com/watch?v=wKn-GIFTo4E
-https://www.youtube.com/watch?v=mBL9Athx7ms
-https://www.youtube.com/watch?v=dO4NB7BrHug
-https://www.inmotionhosting.com/support/edu/wordpress/install-wordpress-debian-10/
-https://www.vultr.com/docs/how-to-install-lighttpd-php-and-mariadb-on-ubuntu-20-04-lts/
-https://stackoverflow.com/questions/24351260/how-to-check-which-php-extensions-have-been-enabled-disabled-in-ubuntu-linux-12
+apt purge apache2 (removes package and associated configuration files)
+apt autoremove (removes dependencies not being used)
+```
 
 ## Wordpress
 
@@ -498,11 +475,12 @@ Now you'll download a copy of the WordPress source files, connect them to your d
 
 
 install wget - baixa direto da internet (downloader)
-
+```
 # wget http://wordpress.org/latest.tar.gz
 # tar -xzvf latest.tar.gz
 # mv wordpress/* /var/www/html/
 # rm -rf latest.tar.gz wordpress
+```
 
 Write the MariaDB database information in the regular wp config file:
 ```
@@ -521,6 +499,15 @@ sudo chmod -R 755 *
 sudo chown -R (recursivo) www-data:www-data www/
 ```
 
+## LAMP process
+  
+1. Visitor accesses your WordPress site by entering the URL in their browser.
+2. Lighttpd acts as the front-end web server, receiving the request and handling static file requests like HTML, CSS, JavaScript, and image files. It directly serves these static files without involving PHP or the database.
+3. When a PHP file, such as a WordPress page or post, is requested, Lighttpd forwards the PHP request to the PHP FastCGI process. FastCGI is a protocol that allows the web server to communicate with the PHP interpreter efficiently.
+4. PHP executes the WordPress PHP code, interacts with the MariaDB database to retrieve or modify data, and generates dynamic content based on the requested page or post. The generated content is then returned back to Lighttpd.
+5. Lighttpd receives the dynamic content from PHP and presents the resulting HTML markup to the visitor's browser. This HTML includes the processed data and any additional static files needed to render the page properly.
+6. The visitor's browser renders the HTML received from the server, displaying the final web page. The visitor only sees the processed code delivered to the browser, they are not exposed to the underlying PHP code that powers WordPress.
+
 
 https://www.elegantthemes.com/blog/resources/php-tutorials-aspiring-wordpress-developers-should-walk-through
 https://www.youtube.com/watch?v=EGE3cBqNeCk
@@ -539,12 +526,6 @@ https://www.youtube.com/watch?v=dO4NB7BrHug
 https://www.inmotionhosting.com/support/edu/wordpress/install-wordpress-debian-10/
 https://www.vultr.com/docs/how-to-install-lighttpd-php-and-mariadb-on-ubuntu-20-04-lts/
 https://stackoverflow.com/questions/24351260/how-to-check-which-php-extensions-have-been-enabled-disabled-in-ubuntu-linux-12
-
-https://github.com/mcombeau/Born2beroot/blob/main/guide/bonus_debian.md
-And forward host port 8080 to guest port 80 in VirtualBox:
-•	Go to VM >> Settings >> Network >> Adapter 1 >> Port Forwarding
-•	Add rule for host port 8080 to forward to guest port 80
-To test Lighttpd, go to host machine browser and type in address http://127.0.0.1:8080 or http://localhost:8080. You should see a Lighttpd "placeholder page".
 
 https://github.com/HEADLIGHTER/Born2BeRoot-42/blob/main/rebootfix.txt
 https://github.com/RamonLucio/Born2beRoot
