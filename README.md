@@ -513,6 +513,7 @@ If needed, check for lighttpd errors:
 ```
 sudo tail -F /var/log/lighttpd/error.log
 ```
+If the host IP changes, [`change the IP in the database`](https://www.gloomycorner.com/what-to-do-if-your-wordpress-host-ip-changed/)
 
 ## LAMP overall interaction
   
