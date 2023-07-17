@@ -68,7 +68,7 @@ $ adduser [username]
 Check a group's users and a user's groups:
 ```
 $ getent group [groupname]
-$ group [username]
+$ groups [username]
 ```
 
 ## Sudo (_Superuser do_) installation
