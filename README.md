@@ -277,6 +277,7 @@ CPU load shoes how busy the server is. It is defined as the number of processes 
 The load assessment depends on the number of cores installed: the 100% utilization rate for a single-core system is 1.00, but for a quad-core it would be 4.00. <br>
 On the other hand, CPU usage provides a real-time measurement of the CPU's utilization at a given moment. The % values displayed in the %Cpu(s) line represent the overall CPU utilization across all available cores.
 ```
+apt install sysstat
 mpstat | grep all | awk '{printf 100 - $NF}' (NF gets the last field: idle)
 ```
 <br>
@@ -545,6 +546,7 @@ We will create a public (no password) directory that will be shared over the net
 ```
 sudo mkdir /Public_Files (root dir)
 sudo chown -R (recursive) nobody:nogroup /Public_Files
+sudo chmode -R 777 /Public_Files
 ```
 
 Change Samba settings to make the directory shareable by adding lines at the end of the config file:
@@ -560,12 +562,6 @@ force user = nobody (user with least amount of privileges)
 sudo systemctl restart smbd
 ```
 
-Samba has its own users list and database. To create a Samba user:
-```
-sudo smbpasswd -a <_smb_username_>
-New smb password:
-```
-
 Configure your firewall
 ```
 udo ufw allow samba
@@ -575,6 +571,22 @@ To check shared files:
 ```
 smbstatus --shares
 ```
+
+To test samba:
+1. Access the host default file manager and choose the + Other Locations option.
+2. Type the following into the "Enter server address" box and select Connect:
+```
+smb://ip-address/Public_Files
+```
+3. This adds the sharing directory to the host shares location.
+
+## Signature
+
+To submit the project, you to turn in a signature.txt. During the defense, the signature will be compared with the one of your virtual machine.
+> To get this signature, you first have to open the default installation folder in host computer (the folder where your VMs are saved):
+> • Linux: ~/VirtualBox VMs/
+> Then, retrieve the signature from the ".vdi" file of your virtual machine in sha1 format. 
+> • Linux: sha1sum debian_serv.vdi
 
 https://www.youtube.com/watch?v=Zrcg7w67Ots
 https://www.youtube.com/watch?v=cuYZ5lCOcWI
