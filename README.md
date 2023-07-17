@@ -328,38 +328,44 @@ The [`monitoring script`](monitoring.sh) must have execution permission to run
 ```
 chmod 775 monitoring.sh
 ```
+
 Cron is a Linux command used for scheduling tasks to be executed sometime in the future. A cron file is a simple text file that contains commands to run periodically at a specific time. <br>
 There are different places where you can save cron jobs. Based on my readings, I have personally decided to organize my files like this:
 1. System crontab file (/etc/crontab) - For services needed for the system, like backups
 2. System drop-in directory (/etc/cron.d) - For jobs that are in script files, so they are better organized
 4. The user crontab file (/var/spool/cron/crontabs/) - For regular users to create their own crontabs
 5. The root user contab file (/var/spool/cron/crontabs/root)- For sudo rules that might not concern the system, like this project's script
-<br>
+
 Use the crontab editor to open a specific user's crontab (it checks for syntax errors):
 ```
 crontab -e -u [user]
 ```
+
 The crontab syntax consists of five fields with the following possible values:
 ```
 * * * * * bash_file
 ```
-- Minute. The minute of the hour the command will run on, ranging from 0-59.
-- Hour. The hour the command will run at, ranging from 0-23 in the 24-hour notation.
-- Day of the month. The day of the month the user wants the command to run on, ranging from 1-31.
-- Month. The month that the user wants the command to run in, ranging from 1-12, thus representing January-December.
-- Day of the week. The day of the week for a command to run on, ranging from 0-6, representing Sunday-Saturday. In some systems, the value 7 represents Sunday.
-<br >
+
+- Minute. The minute of the hour the command will run on, ranging from 0-59.<br>
+- Hour. The hour the command will run at, ranging from 0-23 in the 24-hour notation.<br>
+- Day of the month. The day of the month the user wants the command to run on, ranging from 1-31.<br>
+- Month. The month that the user wants the command to run in, ranging from 1-12, thus representing January-December.<br>
+- Day of the week. The day of the week for a command to run on, ranging from 0-6, representing Sunday-Saturday. In some systems, the value 7 represents Sunday.<br>
 ```
 */10 * * * * bash_file
 ```
-From here, monitoring.sh will be executed any time the minute field is 10. <br>
-To make it execute every ten minutes from system startup, we can create a sleep.sh script that calculates the delay between server startup time and the tenth minute of the hour, then add it to the cron job to apply the delay.
-uptime -s
 
-##Wall
+From here, monitoring.sh will be executed every 10th minute. <br>
+To make it execute every ten minutes from system startup, we can create a [`sleep.sh script`](sleep.sh) that calculates the delay between server startup time and the last tenth minute of the hour, then add it to the cron job to apply the delay.
+```
+*/10 * * * * /root/scripts/sleep.sh && /root/scripts/monitoring.sh
+```
+
+## Wall
 
 O comando wall (_write all_) é utilizado para transmitir uma mensagem para todas as pessoas conectadas aos terminais do servidor.
 ```
+*/10 * * * * /root/scripts/sleep.sh && /root/scripts/monitoring.sh | wall
 wall -n (removes header)
 ```
 
@@ -570,10 +576,6 @@ To check shared files:
 smbstatus --shares
 ```
 
-https://www.elegantthemes.com/blog/resources/php-tutorials-aspiring-wordpress-developers-should-walk-through
-https://www.youtube.com/watch?v=EGE3cBqNeCk
-https://www.youtube.com/watch?v=rHYTE2WEcPA
-https://www.youtube.com/watch?v=u0OeZfIfBRI
 https://www.youtube.com/watch?v=Zrcg7w67Ots
 https://www.youtube.com/watch?v=cuYZ5lCOcWI
 https://www.youtube.com/watch?v=W0e5rbAjotg
@@ -584,11 +586,5 @@ https://www.youtube.com/watch?v=6QGskEOIS9E
 https://www.youtube.com/watch?v=wKn-GIFTo4E
 https://www.youtube.com/watch?v=mBL9Athx7ms
 https://www.youtube.com/watch?v=dO4NB7BrHug
-https://www.inmotionhosting.com/support/edu/wordpress/install-wordpress-debian-10/
-https://www.vultr.com/docs/how-to-install-lighttpd-php-and-mariadb-on-ubuntu-20-04-lts/
-https://stackoverflow.com/questions/24351260/how-to-check-which-php-extensions-have-been-enabled-disabled-in-ubuntu-linux-12
-
-https://github.com/HEADLIGHTER/Born2BeRoot-42/blob/main/rebootfix.txt
-https://github.com/RamonLucio/Born2beRoot
 https://www.youtube.com/watch?v=BhjncGLnUVs&t=88s
 https://www.youtube.com/watch?v=wGVCb8m0a20&t=0s
