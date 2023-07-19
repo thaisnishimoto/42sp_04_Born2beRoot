@@ -1,0 +1,18 @@
+#limits incorrect password to 3 attempts
+Defaults     passwd_tries=3
+
+#display custom message due to wrong password when using sudo
+Defaults     badpass_message="Oh no! Wrong password."
+
+#save sudo logs in a separate file
+Defaults     logfile="/var/log/sudo/sudo.log"
+
+#log both inputs and outputs
+Defaults     log_input, log_output
+Defaults     iolog_dir="/var/log/sudo"
+
+#TTY mode has to be enabled
+Defaults     requiretty
+
+#restrict paths used by sudo
+Defaults     secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
