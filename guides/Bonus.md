@@ -2,10 +2,8 @@
 </h1>
 <p align="center"><i>"In the bonus part, we will set up a functional WordPress website and a service of our choice."</i></p>  
 
----
-
-<h2 align=center> Index </h2>
-<h3 align="center"><b>
+<h2> Index: </h2>
+<h3><b>
 	<a href="#Wordpress">Wordpress</a>
 	<span> • </span>
 	<a href="#Lighttpd">Lighttpd</a>
@@ -17,14 +15,11 @@
 	<a href="#Samba">Samba</a>
 </b></h3>
 
----
-
-For the WordPress website, we will be setting a LAMP stack. It is a bundle of four different software technologies that developers use to build websites and web applications. LAMP is an acronym for the operating system, Linux; the web server, Apache; the database server, MySQL; and the programming language, PHP. However, LAMP now refers to a generic software suite model and its components are largely interchangeable. We will be using Linux, Lighttpd, MariaDB and PHP. 
+For the website, we will be setting a LAMP stack. It is a bundle of four different software technologies that developers use to build websites and web applications. LAMP is an acronym for the operating system, **Linux**; the web server, **Apache**; the database server, **MySQL**; and the programming language, **PHP**. However, LAMP now refers to a generic software suite model and its components are largely interchangeable. We will be using Linux, Lighttpd, MariaDB and PHP.
+<br />
 
 ## Lighttpd
-<br />
-Lighttpd is an open-source, secure, fast, compliant, and very flexible web server. <br>
-A web server is a piece of software in a machine that holds a website raw material. It is the front-end server for handling HTTP requests. Lighttpd listens for incoming requests on a specified port and forwards them to the appropriate backend processes. It serves ip web pages <br> 
+Lighttpd is an open-source, secure, fast, compliant, and very flexible web server. A webserver is a piece of software in a machine that holds a website raw material. It is the front-end server for handling HTTP requests. Lighttpd listens for incoming requests on a specified port and forwards them to the appropriate backend processes. It serves ip web pages <br> 
 ```
 apt install lighttpd
 systemctl status lighttpd
@@ -37,10 +32,9 @@ ufw status
 ```
 
 To test Lighttpd, go to host machine browser and type in your IP address. You should see a Lighttpd "placeholder page".
-
-## MariaDB
 <br />
 
+## MariaDB
 MariaDB is an an open-source relational database management system that serves as backend database for WordPress, with higher performance than MySQL. SQL is the programmig language used to create and manipulate a relational database. <br>
 MariaDB is used by Wordpress to store and organize website's data. The classic task of a database management system is to map, manage, store and change data in tables. <br>
 ```
@@ -57,11 +51,10 @@ mysql_secure_installation
 - Disallow remote root login: prevents potential unauthorized access from external sources.
 - Remove test database: eliminates any potential security vulnerabilities associated with the test database (which is accessible to anonymous users).
 - Reload privilege tables: applies the privilege changes effectively.
-<br>
 
 Access MariaDB:
 ```
-mariadb
+mysql -u root -p
 ```
 
 Create database for wordpress and user to access it:
@@ -85,11 +78,9 @@ Check user logged and it's databases:
 SELECT CURRENT_USER;
 SHOW DATABASES;
 ```
-
-
-## PHP
 <br />
 
+## PHP
 PHP is a widely used open source, server-side preprocessor (all processing happens on the web server before anything is presented do the visitor's web browser). It is a scripting language used mainly in web development to create dynamic websites and applications. PHP talks to the database and loads the content on a website. < br>
 
 PHP 8.2 (current stable) is packaged in Debian 12, to go for the system’s default PHP versions, then you just need to run:
@@ -162,16 +153,16 @@ sudo chown -R (recursivo) www-data:www-data www/ /var/www/html/
 sudo systemctl restart lighttpd
 ```
 
-To confirm the execution of PHP, type http://IP adress/ to your browser and the configuration menu for Wordpress should appear.
+To confirm the execution of PHP, type `http://IP adress/` to your browser and the configuration menu for Wordpress should appear.
 
 If needed, check for lighttpd errors:
 ```
 sudo tail -F /var/log/lighttpd/error.log
 ```
 If the host IP changes, [`change the IP in the database`](https://www.gloomycorner.com/what-to-do-if-your-wordpress-host-ip-changed/)
+<br />
 
 ## LAMP overall interaction
-  
 1. Visitor accesses your WordPress site by entering the URL in their browser.
 2. Lighttpd acts as the front-end web server, receiving the request and handling static file requests like HTML, CSS, JavaScript, and image files. It directly serves these static files without involving PHP or the database.
 3. When a PHP file, such as a WordPress page or post, is requested, Lighttpd forwards the PHP request to the PHP FastCGI process. FastCGI is a protocol that allows the web server to communicate with the PHP interpreter efficiently.
@@ -179,10 +170,7 @@ If the host IP changes, [`change the IP in the database`](https://www.gloomycorn
 5. Lighttpd receives the dynamic content from PHP and presents the resulting HTML markup to the visitor's browser. This HTML includes the processed data and any additional static files needed to render the page properly.
 6. The visitor's browser renders the HTML received from the server, displaying the final web page. The visitor only sees the processed code delivered to the browser, they are not exposed to the underlying PHP code that powers WordPress.
 
-
 ## Samba
-<br />
-
 > Set up a service of your choice that you think is useful
 
 Samba is a file sharing service that can be used to share files and folders over a network
