@@ -3,17 +3,19 @@
 <h3 align="center"><b>
 	<a href="#Partition">Partition</a>
 	<span> • </span>
-	<a href="#LVM">LVM</a>
+	<a href="#LVM - Logical Volume Manager">LVM</a>
 	<span> • </span>
 	<a href="#AppArmor">AppArmor</a>
 	<span> • </span>
-	<a href="#Sudo">Sudo</a>
+	<a href="#Sudo (_Superuser do_) installation">Sudo</a>
 	<span> • </span>
 	<a href="#Password policies">Password policies</a>
 	<span> • </span>
-	<a href="#UFW">UFW</a>
+	<a href="#UFW - Uncomplicated Firewall">UFW</a>
  	<span> • </span>
-	<a href="#Monitoring">Monitoring</a>
+	<a href="#SSH - Secure Shell">SSH</a>
+ 	<span> • </span>
+	<a href="#Monitoring Script">Monitoring Script</a>
  	<span> • </span>
  	<a href="#Cron">Cron</a>
  	<span> • </span>
