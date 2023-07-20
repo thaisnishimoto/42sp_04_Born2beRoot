@@ -3,7 +3,7 @@
 <h3 align="center"><b>
 	<a href="#Partition">Partition</a>
 	<span> • </span>
-	<a href="#LVM - Logical Volume Manager">LVM</a>
+	<a href="#LVM">LVM</a>
 	<span> • </span>
 	<a href="#AppArmor">AppArmor</a>
 	<span> • </span>
@@ -36,6 +36,7 @@
    - var/log: contains log files
 <br>
 
+<id="LVM">
 ## LVM - Logical Volume Manager
 More flexible way to manage storage, because allows to change storage on the fly, without having to unmount. It helps combine multiple physical storage devices, such as hard drives or SSDs, into a single logical volume that can be divided and resized as needed.
 There is a device mapper that combines different physical volumes into one group. It allows to use one logical volume that accesses storage from multiple different disks.
