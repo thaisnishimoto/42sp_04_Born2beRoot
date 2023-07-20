@@ -1,6 +1,6 @@
 <h1 align="center"> VM configuration
 </h1>
-<h3><b>
+<h3 align="center"><b>
 	<a href="#Partition">Partition</a>
 	<span> • </span>
 	<a href="#LVM">LVM</a>
@@ -10,13 +10,13 @@
 	<a href="#Sudo">Sudo</a>
 	<span> • </span>
 	<a href="#Password policies">Password policies</a>
- <span> • </span>
+	<span> • </span>
 	<a href="#UFW">UFW</a>
- <span> • </span>
+ 	<span> • </span>
 	<a href="#Monitoring">Monitoring</a>
- <span> • </span>
- <a href="#Cron">Cron</a>
- <span> • </span>
+ 	<span> • </span>
+ 	<a href="#Cron">Cron</a>
+ 	<span> • </span>
 	<a href="#Signature">Signature</a>
 </b></h3>
 
@@ -48,7 +48,7 @@ pvcreate - creates a PV
 vgscan - searches for VGs
 vgcreate - creates a group from PVs
 ```
-4. Logical Volume -
+4. Logical Volume - correspond to partitions: they hold a filesystem. Unlike partitions though, they can span across multiple disks.
 ```
 lvscan - searches for LVs
 lvcreate - creates a logical volume in an speficied size from a VG
@@ -100,8 +100,9 @@ Add existing user to sudo group
 ```bash
 $ usermod -aG sudo [usename]
 ```
-
-## Sudo configuration
+<h3>
+Sudo configuration:
+</h3>
 
 > 1. Authentication using sudo has to be limited to 3 attempts in the event of an incorrect password.<br>
 > 2. A custom message of your choice has to be displayed if an error due to a wrong password occurs when using sudo.<br>
@@ -375,7 +376,9 @@ To make it execute every ten minutes from system startup, we can create a [`slee
 */10 * * * * /root/scripts/sleep.sh && /root/scripts/monitoring.sh
 ```
 
-## Wall
+<h3>
+Wall:
+</h3>
 
 O comando wall (_write all_) é utilizado para transmitir uma mensagem para todas as pessoas conectadas aos terminais do servidor.
 ```
