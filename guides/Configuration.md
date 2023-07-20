@@ -73,28 +73,6 @@ It already comes with Debian 12 by default. To check if it is already enabled:
 $ aa-status
 ```
 
-## Usefull commands
-
-Listing block devices: displays information about all block storage devices that are currently available on the system
-```
-$ lsblk
-```
-Listing groups and users:
-```
-$ getent group
-$ getent passwd
-```
-Create new group and new user:
-```
-$ groupadd [groupname]
-$ adduser [username]
-```
-Check a group's users and a user's groups:
-```
-$ getent group [groupname]
-$ groups [username]
-```
-
 <h2 id="Sudo">
 Sudo (_Superuser do_) installation
 </h2>
@@ -392,7 +370,7 @@ The crontab syntax consists of five fields with the following possible values:
 ```
 
 From here, monitoring.sh will be executed every 10th minute. <br>
-To make it execute every ten minutes from system startup, we can create a [`sleep.sh script`](sleep.sh) that calculates the delay between server startup time and the last tenth minute of the hour, then add it to the cron job to apply the delay.
+To make it execute every ten minutes from system startup, we can create a [`sleep.sh script`](https://github.com/thaisnishimoto/42sp_04_Born2beRoot/blob/master/config_files/sleep.sh) that calculates the delay between server startup time and the last tenth minute of the hour, then add it to the cron job to apply the delay.
 ```
 */10 * * * * /root/scripts/sleep.sh && /root/scripts/monitoring.sh
 ```
