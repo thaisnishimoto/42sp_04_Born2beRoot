@@ -25,6 +25,7 @@
 <h2 id="Partition">
 Partition
 </h2>
+
 1. Create standard partition of 500M to /boot
 2. Create logical partition of max without mountpoint
 3. Encrypt logical partition created above
@@ -41,6 +42,7 @@ Partition
 <h2 id="LVM">
 LVM - Logical Volume Manager
 </h2>
+
 More flexible way to manage storage, because allows to change storage on the fly, without having to unmount. It helps combine multiple physical storage devices, such as hard drives or SSDs, into a single logical volume that can be divided and resized as needed.
 There is a device mapper that combines different physical volumes into one group. It allows to use one logical volume that accesses storage from multiple different disks.
 3 layers:
@@ -63,6 +65,7 @@ lvcreate - creates a logical volume in an speficied size from a VG
 <h2 id="AppArmor">
 AppArmor
 </h2>
+
 AppArmor is a Linux application that confines programs according to a set of rules (_profiles_) that specify what files a given program can access, limiting its resources. The profle depends on the installation pathway of the program being executed. The Kernel checks with AppArmor to know if the program is authorized to do the what it attempting to do.
 Unlike SELinux, the rules don´t depend on the user. Everyone finds the same set of rule when trying to execute a program. <br>
 It already comes with Debian 12 by default. To check if it is already enabled:
@@ -95,6 +98,7 @@ $ groups [username]
 <h2 id="Sudo">
 Sudo (_Superuser do_) installation
 </h2>
+
 It is good secutiry practice to disable root login over SSH to prevent unauthorized access. Another user with almost all superuser privileges should be created. <br>
 You need to be logged as root user (_superuser_). Switch to root and provide the root user's password
 ```bash
@@ -147,6 +151,7 @@ sudoreplay [Terminal Session ID]
 <h2 id="Password">
 Password policies
 </h2>
+
 > 1. Your password has to expire every 30 days.
 > 2. The minimum number of days allowed before the modification of a password will be set to 2.
 > 3. The user has to receive a warning message 7 days before their password expires.
@@ -196,6 +201,7 @@ $ passwd <username>
 <h2 id="UFW">
 UFW - Uncomplicated Firewall
 </h2>
+
 UFW controlls network connections to protect the system. UFW default policy is to deny incoming traffic and allow outgoing traffic.
 ```
 ufw status
@@ -205,6 +211,7 @@ ufw enable
 <h2 id="SSH">
 SSH - Secure Shell
 </h2>
+
 SSH is a protocol that creates a secure conection between:
  - Client: local computer
  - Server: computer we want to control
@@ -402,6 +409,7 @@ wall -n (removes header)
 <h2 id="Signature">
 Signature
 </h2>
+
 To submit the project, you to turn in a signature.txt. During the defense, the signature will be compared with the one of your virtual machine.
 > To get this signature, you first have to open the default installation folder in host computer (the folder where your VMs are saved):
 > • Linux: ~/VirtualBox VMs/
