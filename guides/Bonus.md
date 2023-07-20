@@ -17,6 +17,7 @@
 
 For the website, we will be setting a LAMP stack. It is a bundle of four different software technologies that developers use to build websites and web applications. LAMP is an acronym for the operating system, **Linux**; the web server, **Apache**; the database server, **MySQL**; and the programming language, **PHP**. However, LAMP now refers to a generic software suite model and its components are largely interchangeable. We will be using Linux, Lighttpd, MariaDB and PHP.
 <br />
+<br>
 
 ## Lighttpd
 Lighttpd is an open-source, secure, fast, compliant, and very flexible web server. A webserver is a piece of software in a machine that holds a website raw material. It is the front-end server for handling HTTP requests. Lighttpd listens for incoming requests on a specified port and forwards them to the appropriate backend processes. It serves ip web pages <br> 
@@ -33,6 +34,7 @@ ufw status
 
 To test Lighttpd, go to host machine browser and type in your IP address. You should see a Lighttpd "placeholder page".
 <br />
+<br>
 
 ## MariaDB
 MariaDB is an an open-source relational database management system that serves as backend database for WordPress, with higher performance than MySQL. SQL is the programmig language used to create and manipulate a relational database. <br>
@@ -78,7 +80,6 @@ Check user logged and it's databases:
 SELECT CURRENT_USER;
 SHOW DATABASES;
 ```
-<br />
 
 ## PHP
 PHP is a widely used open source, server-side preprocessor (all processing happens on the web server before anything is presented do the visitor's web browser). It is a scripting language used mainly in web development to create dynamic websites and applications. PHP talks to the database and loads the content on a website. < br>
@@ -113,8 +114,6 @@ apt autoremove (removes dependencies not being used)
 ```
 
 ## Wordpress
-<br />
-
 WordPress is a tool used for the management and creation of websites that is completely open-source. Some of the features of WordPress include publishing tools, user management, media management, flexibility in the creation of your own website, optimized for SEO, simplicity, and easy installation and upgrades.
 
 Now you'll download a copy of the WordPress source files, connect them to your database, and get started with a brand new WordPress site.
@@ -159,8 +158,9 @@ If needed, check for lighttpd errors:
 ```
 sudo tail -F /var/log/lighttpd/error.log
 ```
-If the host IP changes, [`change the IP in the database`](https://www.gloomycorner.com/what-to-do-if-your-wordpress-host-ip-changed/)
+If the host IP changes, [`change the IP in the database.`](https://www.gloomycorner.com/what-to-do-if-your-wordpress-host-ip-changed/)
 <br />
+<br>
 
 ## LAMP overall interaction
 1. Visitor accesses your WordPress site by entering the URL in their browser.
