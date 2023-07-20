@@ -1,11 +1,24 @@
-# Born2beRoot
-This project aims to introduce you to the wonderful world of virtualization.
-
-## Create virtual machine
- - Download Oracle VM VirtualBox <br>
- - Download Debian current stable distribution (currently Debian version 12 - _bookworm_) <br>
- - Settings: change Network to Bridged Adapter so the VM is accessible from the network. It will assign an IP address to the VM.
-<br>
+<h1 align="center"> VM configuration
+</h1>
+<h3><b>
+	<a href="#Partition">Partition</a>
+	<span> • </span>
+	<a href="#LVM">LVM</a>
+	<span> • </span>
+	<a href="#AppArmor">AppArmor</a>
+	<span> • </span>
+	<a href="#Sudo">Sudo</a>
+	<span> • </span>
+	<a href="#Password policies">Password policies</a>
+ <span> • </span>
+	<a href="#UFW">UFW</a>
+ <span> • </span>
+	<a href="#Monitoring">Monitoring</a>
+ <span> • </span>
+ <a href="#Cron">Cron</a>
+ <span> • </span>
+	<a href="#Signature">Signature</a>
+</b></h3>
 
 ## Partition
 1. Create standard partition of 500M to /boot
