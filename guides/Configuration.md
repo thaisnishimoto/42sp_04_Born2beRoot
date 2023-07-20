@@ -7,22 +7,24 @@
 	<span> • </span>
 	<a href="#AppArmor">AppArmor</a>
 	<span> • </span>
-	<a href="#Sudo (_Superuser do_) installation">Sudo</a>
+	<a href="#Sudo">Sudo</a>
 	<span> • </span>
-	<a href="#Password policies">Password policies</a>
+	<a href="#Password">Password policies</a>
 	<span> • </span>
-	<a href="#UFW - Uncomplicated Firewall">UFW</a>
+	<a href="#UFW">UFW</a>
  	<span> • </span>
-	<a href="#SSH - Secure Shell">SSH</a>
+	<a href="#SSH">SSH</a>
  	<span> • </span>
-	<a href="#Monitoring Script">Monitoring Script</a>
+	<a href="#Monitoring">Monitoring Script</a>
  	<span> • </span>
  	<a href="#Cron">Cron</a>
  	<span> • </span>
 	<a href="#Signature">Signature</a>
 </b></h3>
 
-## Partition
+<h2 id="Partition">
+Partition
+</h2>
 1. Create standard partition of 500M to /boot
 2. Create logical partition of max without mountpoint
 3. Encrypt logical partition created above
@@ -36,8 +38,9 @@
    - var/log: contains log files
 <br>
 
-<id="LVM">
-## LVM - Logical Volume Manager
+<h2 id="LVM">
+LVM - Logical Volume Manager
+</h2>
 More flexible way to manage storage, because allows to change storage on the fly, without having to unmount. It helps combine multiple physical storage devices, such as hard drives or SSDs, into a single logical volume that can be divided and resized as needed.
 There is a device mapper that combines different physical volumes into one group. It allows to use one logical volume that accesses storage from multiple different disks.
 3 layers:
@@ -57,7 +60,9 @@ lvscan - searches for LVs
 lvcreate - creates a logical volume in an speficied size from a VG
 ```
 
-## AppArmor
+<h2 id="AppArmor">
+AppArmor
+</h2>
 AppArmor is a Linux application that confines programs according to a set of rules (_profiles_) that specify what files a given program can access, limiting its resources. The profle depends on the installation pathway of the program being executed. The Kernel checks with AppArmor to know if the program is authorized to do the what it attempting to do.
 Unlike SELinux, the rules don´t depend on the user. Everyone finds the same set of rule when trying to execute a program. <br>
 It already comes with Debian 12 by default. To check if it is already enabled:
@@ -87,8 +92,9 @@ $ getent group [groupname]
 $ groups [username]
 ```
 
-## Sudo (_Superuser do_) installation
-
+<h2 id="Sudo">
+Sudo (_Superuser do_) installation
+</h2>
 It is good secutiry practice to disable root login over SSH to prevent unauthorized access. Another user with almost all superuser privileges should be created. <br>
 You need to be logged as root user (_superuser_). Switch to root and provide the root user's password
 ```bash
@@ -138,8 +144,9 @@ When a command is run via sudo with log_output enabled a TSID=ID string is logge
 ```
 sudoreplay [Terminal Session ID]
 ```
-## Password policies
-
+<h2 id="Password">
+Password policies
+</h2>
 > 1. Your password has to expire every 30 days.
 > 2. The minimum number of days allowed before the modification of a password will be set to 2.
 > 3. The user has to receive a warning message 7 days before their password expires.
@@ -186,16 +193,18 @@ enforce_for_root <br>
 $ passwd <username>
 ```
 
-
-## UFW - Uncomplicated Firewall
+<h2 id="UFW">
+UFW - Uncomplicated Firewall
+</h2>
 UFW controlls network connections to protect the system. UFW default policy is to deny incoming traffic and allow outgoing traffic.
 ```
 ufw status
 apt install ufw
 ufw enable
 ```
-
-## SSH - Secure Shell
+<h2 id="SSH">
+SSH - Secure Shell
+</h2>
 SSH is a protocol that creates a secure conection between:
  - Client: local computer
  - Server: computer we want to control
@@ -240,8 +249,9 @@ systemctl restart networking (changes the IP if necessary)
 to download - from local: scp -P 4242 username@ip_address:[file path on server] [destination path (current dir:.)]
 to upload - from local: scp -P 4242 [file path] username@ip_address:[destination path (user home:~)]
 ```
-
-## Monitoring Script
+<h2 id="Monitoring">
+Monitoring Script
+</h2>
 
 > 1. The architecture of your operating system and its kernel version. <br>
 
@@ -338,8 +348,9 @@ ip -br (better layout) link (used to display and modify network interfaces)
 cat /var/log/sudo/sudo.log | grep "USER" | wc -l
 ```
 
-
-## Cron
+<h2 id="Cron">
+Cron
+</h2>
 
 > At server startup, the script will display some information on all terminals every 10 minutes
 The [`monitoring script`](monitoring.sh) must have execution permission to run
@@ -388,9 +399,9 @@ O comando wall (_write all_) é utilizado para transmitir uma mensagem para toda
 */10 * * * * /root/scripts/sleep.sh && /root/scripts/monitoring.sh | wall
 wall -n (removes header)
 ```
-
-## Signature
-
+<h2 id="Signature">
+Signature
+</h2>
 To submit the project, you to turn in a signature.txt. During the defense, the signature will be compared with the one of your virtual machine.
 > To get this signature, you first have to open the default installation folder in host computer (the folder where your VMs are saved):
 > • Linux: ~/VirtualBox VMs/
