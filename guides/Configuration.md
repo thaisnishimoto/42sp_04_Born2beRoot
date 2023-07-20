@@ -22,6 +22,8 @@
 	<a href="#Signature">Signature</a>
 </b></h3>
 
+**Debian** is one of the oldest and most influential Linux distributions. It is an independent distribution that is not based on any other operating system. It offers a stable release, known for its focus on stability and security, making it a popular choice for servers. Debian's package repositories contain thousands of software packages, which can be accessed and installed using the APT package management system. Debian's repositories are known for their inclusiveness and are constantly updated by the Debian community and maintainers. 
+
 <h2 id="Partition">
 Partition
 </h2>
