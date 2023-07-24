@@ -12,7 +12,7 @@
  Status
 </h2>
 
-Finished: 2023, July 19th
+Finished: 2023, July 19th <br>
 Grade: 125/100
 
 <h2>
